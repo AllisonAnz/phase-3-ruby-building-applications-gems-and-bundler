@@ -1,0 +1,121 @@
+# Gems and Bundler
+# Use Ruby gems (external libraries) in your applications
+# Use Bundler and a Gemfile to manage gems and their dependencies
+
+# Intro 
+# not everything you write will be 100% your code 
+# As a developer, you have a whole world of outside code to work with 
+# libraries
+# libraries (or "gems") in Ruby are bundles of code that someone else wrote 
+# for you to integrate into your codebase 
+
+# RSpec is a gem 
+# You can integrate it into a Ruby application using RubyGems too 
+
+# How to install a Gem 
+gem install rspec 
+
+# If a gem is on a GitHub repository should have a README that contains info on how to install it 
+
+gem install awesome_print
+require 'awesome_print' 
+array = [1,2,3,4]
+hash = {:a => 1, :b => 5}
+ap array
+ap hash 
+
+[
+    [0] 1,
+    [1] 2,
+    [2] 3,
+    [3] 4
+] 
+{
+    :a => 1,
+    :b => 5
+} 
+
+
+# Using a Gemfile and Bundler 
+# If a Ruby application rlies on a gem, anyone using the app will need to install 
+# the gem to get the application to function correctly 
+
+# To make it easy, we use a Gemfile 
+# It performs some of the same functions as a package.json in JS 
+# where you list all the gem dependencies for you app 
+# as well as the sources they can be downloaded, allowing other users to 
+# quickly install all the gems at once 
+# We do this using Bundler 
+# bundle install 
+
+# How to Add the Gem to your Gemfile 
+# A typical Gemfile has two parts 
+# a source at the top 
+# and a list of gems 
+source "https://rubygems.org"
+
+gem 'awesome_print' 
+
+# We can also speciify which version this app works with 
+gem 'awesome_print', '~> 1.8' 
+
+# Gems go through several types of updates 
+# Major and Minor 
+# Major version change reflected by the first number 
+# Major changes don't have to be backward compatible 
+# So new versions might potentially break you app 
+
+# Minor versions the second number 
+# All minor version changes are backward compatible 
+
+# Sometimes, a third number will be listed 1.8.0 
+# This number relects a patch, which is a change to a gem to fix a bug 
+# but not introduce new functionality 
+
+# Gem Sources 
+# At the top of a Gemfile we include the default source where our gems are located 
+# typically source "https://rubygems.org"
+# By default Bundler will try to find gems at the default source 
+# that you specified in the top of your Gemfil 
+
+# You can refer to the gem via its GitHub repository 
+gem 'rack', git: 'https://github.com/rack/rack' 
+
+If the gem code is in a subdirectory of the repository 
+# serveral options are available to help Bundle find the gem 
+
+# Perhaps the gem is private and needs to be accessed via SSH 
+gem 'nokogiri', :git => 'login@example.com:some-user-account/some-private-gem.git' 
+
+
+# Gem Groups 
+# Gemfile lets you set up groups, so gems are only loaded under specific circumstances 
+
+# For example, you might have gem Pry in your development group b/c you only need it when you debug in the 
+# development phase 
+# Your code in production, it doesn't need to use Pry gem 
+
+Here's an example Gemfile with a group specified:
+
+source "https://rubygems.org"
+
+gem "rest-client"
+
+group :development do
+  gem "pry"
+end 
+
+# To create a Gemfile 
+bundle init
+
+Working with config/environment.rb
+# We need the gems to load before the app 
+# we can specific this in the config/environment.rb 
+require 'bundler/setup'
+Bundler.require(:default, :development) 
+
+# Working with bin/run 
+# Where the action happens 
+# Where our app logic goes 
+# Take advantage of all the work we did in the environment file 
+# require it 
